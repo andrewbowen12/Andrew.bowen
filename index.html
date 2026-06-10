@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Andrew Bowen</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"/>
+  <style>
+    /* ============================================
+       DESIGN TOKENS
+    ============================================ */
+    :root {
+      --navy:   #1a2744;
+      --navy2:  #111d35;
+      --gold:   #c9a84c;
+      --gold2:  #e8c96a;
+      --cream:  #f7f5f0;
+      --dark:   #0d1520;
+      --text:   #1a1a1a;
+      --muted:  #6b7280;
+      --border: #e2ddd5;
+      /* Guitar page */
+      --gtr-bg:    #1a1108;
+      --gtr-brown: #8b5e1a;
+      --gtr-tan:   #c8943a;
+      --gtr-light: #f0e8d8;
+    }
+
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); }
+    h1,h2,h3,.serif { font-family: 'Playfair Display', serif; }
+
+    /* ============================================
+       NAVBAR
+    ============================================ */
+    #mainNav {
+      background: var(--navy2) !important;
+      border-bottom: 1px solid rgba(201,168,76,.25);
+      transition: padding .3s;
+    }
+    .navbar-brand {
+      font-family: 'Playfair Display', serif;
+      color: var(--gold) !important;
+      font-size: 1.25rem;
+      letter-spacing: .03em;
+    }
+    .nav-link {
+      color: rgba(255,255,255,.75) !important;
+      font-size: .85rem;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      transition: color .2s;
+    }
+    .nav-link:hover, .nav-link.active { color: var(--gold) !important; }
+
+    /* ============================================
+       HERO
+    ============================================ */
+    #home {
+      background: linear-gradient(140deg, var(--navy2) 0%, #243260 60%, var(--navy) 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 120px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    #home::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 70% 60% at 80% 50%, rgba(201,168,76,.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-eyebrow {
+      display: inline-block;
+      background: rgba(201,168,76,.15);
+      border: 1px solid rgba(201,168,76,.4);
+      color: var(--gold);
+      font-size: .75rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      padding: .3rem .9rem;
+      border-radius: 2px;
+      margin-bottom: 1.3rem;
+    }
+    .hero-name {
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      color: #fff;
+      line-height: 1.1;
+      margin-bottom: .6rem;
+    }
+    .hero-title {
+      font-size: 1.1rem;
+      color: var(--gold);
+      font-weight: 500;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      margin-bottom: 1.3rem;
+    }
+    .hero-bio {
+      color: rgba(255,255,255,.72);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      max-width: 500px;
+      margin-bottom: 2rem;
+    }
+    .btn-gold {
+      background: var(--gold);
+      color: var(--navy2);
+      border: none;
+      font-weight: 700;
+      padding: .65rem 1.8rem;
+      border-radius: 2px;
+      letter-spacing: .04em;
+      font-size: .92rem;
+      transition: opacity .2s, transform .1s;
+    }
+    .btn-gold:hover { opacity: .88; color: var(--navy2); transform: translateY(-1px); }
+    .btn-outline-hero {
+      border: 1.5px solid rgba(255,255,255,.45);
+      color: #fff;
+      background: transparent;
+      font-weight: 500;
+      padding: .65rem 1.8rem;
+      border-radius: 2px;
+      letter-spacing: .04em;
+      font-size: .92rem;
+      transition: all .2s;
+    }
+    .btn-outline-hero:hover { background: rgba(255,255,255,.1); color: #fff; border-color: rgba(255,255,255,.7); }
+    .hero-photo-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .hero-photo-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -12px -12px 12px 12px;
+      border: 2px solid rgba(201,168,76,.35);
+      border-radius: 4px;
+      z-index: 0;
+    }
+    .hero-photo {
+      width: 340px;
+      max-width: 100%;
+      border-radius: 4px;
+      position: relative;
+      z-index: 1;
+      box-shadow: 0 24px 60px rgba(0,0,0,.45);
+      object-fit: cover;
+    }
+    .hero-stat-row {
+      display: flex;
+      gap: 2rem;
+      margin-top: 1.5rem;
+    }
+    .hero-stat-num { font-family: 'Playfair Display', serif; font-size: 2rem; color: var(--gold2); font-weight: 700; line-height: 1; }
+    .hero-stat-lbl { font-size: .73rem; color: rgba(255,255,255,.5); text-transform: uppercase; letter-spacing: .08em; }
+
+    /* ============================================
+       SECTION HELPERS
+    ============================================ */
+    .sec-label { font-size: .73rem; letter-spacing: .17em; text-transform: uppercase; color: var(--gold); font-weight: 600; margin-bottom: .35rem; }
+    .sec-title { font-family: 'Playfair Display', serif; font-size: clamp(1.7rem,3vw,2.3rem); color: var(--navy); margin-bottom: .5rem; }
+    .gold-bar { width: 44px; height: 3px; background: var(--gold); margin-bottom: 2rem; }
+    section { padding: 90px 0; }
+    section:nth-child(even) { background: var(--cream); }
+
+    /* ============================================
+       ABOUT
+    ============================================ */
+    .about-card {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-align: center;
+      box-shadow: 0 2px 12px rgba(0,0,0,.05);
+    }
+    .about-card .num { font-family: 'Playfair Display', serif; font-size: 2.1rem; color: var(--navy); font-weight: 700; }
+    .about-card .lbl { font-size: .75rem; color: var(--muted); text-transform: uppercase; letter-spacing: .07em; }
+
+    /* ============================================
+       RESUME
+    ============================================ */
+    .res-block { margin-bottom: 2rem; }
+    .res-company { font-weight: 700; color: var(--navy); font-size: 1.05rem; }
+    .res-role { font-size: .9rem; color: var(--gold); font-weight: 600; letter-spacing: .02em; }
+    .res-date { font-size: .78rem; color: var(--muted); margin-bottom: .5rem; }
+    .res-card {
+      background: #fff;
+      border-left: 4px solid var(--gold);
+      padding: 1.3rem 1.6rem;
+      border-radius: 0 6px 6px 0;
+      margin-bottom: 1rem;
+      box-shadow: 0 1px 8px rgba(0,0,0,.04);
+    }
+    .skill-chip {
+      display: inline-block;
+      background: var(--navy);
+      color: #fff;
+      font-size: .75rem;
+      letter-spacing: .05em;
+      padding: .28rem .8rem;
+      border-radius: 2px;
+      margin: .2rem;
+    }
+    .award-item { display: flex; align-items: flex-start; gap: .75rem; padding: .6rem 0; border-bottom: 1px solid var(--border); }
+    .award-item:last-child { border-bottom: none; }
+    .award-icon { color: var(--gold); font-size: 1.2rem; margin-top: 2px; flex-shrink: 0; }
+
+    /* ============================================
+       GUITAR PAGE (scratch section)
+    ============================================ */
+    #guitar-page {
+      background: var(--gtr-bg);
+      color: var(--gtr-light);
+      padding: 0;
+    }
+    #guitar-hero {
+      background: linear-gradient(160deg, #0d0b06 0%, #2a1f08 60%, #1a1108 100%);
+      padding: 80px 0 60px;
+      text-align: center;
+      border-bottom: 2px solid rgba(200,148,58,.3);
+      position: relative;
+      overflow: hidden;
+    }
+    #guitar-hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: url('https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=1400&q=50') center/cover no-repeat;
+      opacity: .12;
+    }
+    #guitar-hero * { position: relative; z-index: 1; }
+    #guitar-hero h2 { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3.2rem); color: #fff; margin-bottom: .4rem; }
+    #guitar-hero .tagline { font-size: 1rem; color: var(--gtr-tan); letter-spacing: .13em; text-transform: uppercase; }
+
+    .gtr-section { padding: 60px 0; border-bottom: 1px solid rgba(200,148,58,.12); }
+    .gtr-section:last-child { border-bottom: none; }
+    .gtr-label { font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--gtr-tan); font-weight: 600; margin-bottom: .3rem; }
+    .gtr-title { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gtr-light); margin-bottom: .4rem; }
+    .gtr-bar { width: 40px; height: 2px; background: var(--gtr-tan); margin-bottom: 1.5rem; }
+
+    .gtr-card {
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(200,148,58,.18);
+      border-radius: 6px;
+      padding: 1.4rem;
+      transition: border-color .2s, transform .2s;
+    }
+    .gtr-card:hover { border-color: var(--gtr-tan); transform: translateY(-3px); }
+    .gtr-card .icon { font-size: 1.8rem; margin-bottom: .5rem; }
+    .gtr-card h3 { font-family: 'Playfair Display', serif; color: var(--gtr-tan); font-size: 1.1rem; margin-bottom: .4rem; }
+    .gtr-card p { color: rgba(240,232,216,.7); font-size: .91rem; margin: 0; }
+
+    blockquote.gtr-quote {
+      border-left: 3px solid var(--gtr-tan);
+      padding: .8rem 1.3rem;
+      background: rgba(200,148,58,.07);
+      font-style: italic;
+      color: var(--gtr-tan);
+      border-radius: 0 4px 4px 0;
+      margin: 1.5rem 0;
+    }
+
+    .gtr-img {
+      width: 100%; border-radius: 6px;
+      border: 1px solid rgba(200,148,58,.2);
+      margin: 1rem 0;
+    }
+
+    /* nested list styling in guitar section */
+    .gtr-section ol { color: rgba(240,232,216,.85); padding-left: 1.4rem; }
+    .gtr-section ol li { margin-bottom: .5rem; font-size: .96rem; }
+    .gtr-section ul { color: rgba(240,232,216,.7); padding-left: 1.3rem; margin-top: .3rem; }
+    .gtr-section ul li { margin-bottom: .2rem; font-size: .88rem; }
+
+    .video-wrap {
+      position: relative; padding-bottom: 56.25%;
+      height: 0; overflow: hidden;
+      border-radius: 6px;
+      border: 1px solid rgba(200,148,58,.2);
+    }
+    .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+    .tableau-wrap {
+      background: rgba(255,255,255,.03);
+      border: 1px solid rgba(200,148,58,.18);
+      border-radius: 6px;
+      padding: 1rem;
+      overflow-x: auto;
+    }
+
+    /* ============================================
+       TRIVIA GAME SECTION
+    ============================================ */
+    #game-section {
+      background: #0f1a10;
+      padding: 80px 0;
+      border-top: 2px solid rgba(111,207,122,.15);
+    }
+    #game-section .sec-label { color: #6fcf7a; }
+    #game-section .sec-title { color: #a8d5a2; }
+    #game-section .gold-bar { background: #6fcf7a; }
+
+    /* TRIVIA STYLES */
+    :root {
+      --g-green: #6fcf7a;
+      --g-green2: #a8d5a2;
+      --g-gold: #e0c060;
+      --g-red: #e07070;
+      --g-card: #1a2e1c;
+      --g-opt: #243327;
+      --g-border: #2e4a31;
+    }
+    .cat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: .85rem; }
+    .cat-btn {
+      background: var(--g-card); border: 2px solid var(--g-border);
+      border-radius: 8px; padding: .9rem 1rem; color: #f0ece3;
+      cursor: pointer; text-align: left; transition: all .18s; font-size: .9rem;
+    }
+    .cat-btn:hover, .cat-btn.selected { border-color: var(--g-green); background: #1f3322; }
+    .cat-btn .cat-icon { font-size: 1.4rem; display: block; margin-bottom: .25rem; }
+    .cat-btn .cat-name { font-weight: 600; color: var(--g-green2); font-size: .92rem; }
+    .cat-btn .cat-desc { font-size: .75rem; color: #8fa88f; margin-top: .1rem; }
+
+    .g-btn { padding: .7rem 2rem; border-radius: 8px; font-size: .95rem; font-weight: 600; cursor: pointer; border: none; transition: opacity .18s, transform .1s; }
+    .g-btn:hover { opacity: .88; } .g-btn:active { transform: scale(.97); }
+    .g-btn-green { background: var(--g-green); color: #0e1f10; }
+    .g-btn-outline { background: transparent; border: 2px solid var(--g-green); color: var(--g-green); }
+
+    .g-prog-info { display: flex; justify-content: space-between; font-size: .8rem; color: #8fa88f; margin-bottom: .35rem; }
+    .g-prog-bg { width: 100%; height: 5px; background: var(--g-border); border-radius: 99px; overflow: hidden; }
+    .g-prog-fill { height: 100%; background: var(--g-green); border-radius: 99px; transition: width .4s ease; }
+
+    .g-q-card { background: var(--g-card); border: 1px solid var(--g-border); border-radius: 12px; padding: 1.8rem; margin-bottom: 1rem; }
+    .g-cat-tag { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; color: var(--g-green); font-weight: 600; margin-bottom: .7rem; }
+    #g-question-text { font-size: 1.15rem; font-weight: 600; line-height: 1.55; color: #f0ece3; }
+
+    .g-options { display: flex; flex-direction: column; gap: .65rem; margin-bottom: 1.2rem; }
+    .g-opt-btn {
+      width: 100%; background: var(--g-opt); border: 2px solid var(--g-border);
+      border-radius: 8px; padding: .8rem 1.1rem; color: #f0ece3;
+      font-size: .92rem; cursor: pointer; text-align: left; display: flex; align-items: center; gap: .7rem; transition: all .15s;
+    }
+    .g-opt-btn:hover:not(:disabled) { border-color: var(--g-green2); background: #253828; }
+    .g-opt-btn .g-letter {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--g-border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: .77rem; font-weight: 700; flex-shrink: 0; color: #8fa88f; transition: all .15s;
+    }
+    .g-opt-btn:hover:not(:disabled) .g-letter { background: var(--g-green); color: #0e1f10; }
+    .g-opt-btn.correct { border-color: var(--g-green); background: #1a3d1c; }
+    .g-opt-btn.correct .g-letter { background: var(--g-green); color: #0e1f10; }
+    .g-opt-btn.wrong { border-color: var(--g-red); background: #3d1a1a; opacity: .7; }
+    .g-opt-btn.wrong .g-letter { background: var(--g-red); color: #fff; }
+    .g-opt-btn:disabled { cursor: default; }
+
+    #g-feedback { border-radius: 8px; padding: .9rem 1.2rem; font-size: .92rem; line-height: 1.6; margin-bottom: 1rem; display: none; }
+    #g-feedback.show { display: block; }
+    #g-feedback.cfb { background: #1a3d1c; border: 1px solid var(--g-green); color: var(--g-green2); }
+    #g-feedback.wfb { background: #3d1a1a; border: 1px solid var(--g-red); color: #f0a0a0; }
+
+    .score-circle {
+      width: 130px; height: 130px; border-radius: 50%;
+      border: 4px solid var(--g-green);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin: 0 auto 1.3rem; background: var(--g-card);
+    }
+    .score-num { font-family: 'Playfair Display', serif; font-size: 2.8rem; font-weight: 800; color: var(--g-green2); line-height: 1; }
+    .score-den { font-size: .8rem; color: #8fa88f; }
+    .grade-badge { display: inline-block; font-size: .95rem; font-weight: 700; padding: .35rem 1.1rem; border-radius: 99px; margin-bottom: 1rem; }
+    .bk-list { background: var(--g-card); border: 1px solid var(--g-border); border-radius: 8px; padding: .9rem 1.2rem; margin: 1rem 0; text-align: left; }
+    .bk-list p { font-size: .76rem; color: #8fa88f; margin-bottom: .5rem; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; }
+    .bk-item { display: flex; align-items: center; gap: .55rem; padding: .3rem 0; font-size: .85rem; border-bottom: 1px solid var(--g-border); }
+    .bk-item:last-child { border-bottom: none; }
+
+    /* ============================================
+       CONTACT / FOOTER
+    ============================================ */
+    #contact {
+      background: var(--navy2);
+      color: #fff;
+      padding: 70px 0 40px;
+    }
+    #contact .sec-label { color: var(--gold); }
+    #contact .sec-title { color: #fff; }
+    .social-link {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 42px; height: 42px; border-radius: 50%;
+      border: 1.5px solid rgba(255,255,255,.3);
+      color: #fff; font-size: 1.1rem; margin: 0 .3rem;
+      text-decoration: none; transition: all .2s;
+    }
+    .social-link:hover { border-color: var(--gold); color: var(--gold); }
+    .footer-copy { color: rgba(255,255,255,.35); font-size: .8rem; margin-top: 2.5rem; }
+
+    /* ============================================
+       MISC
+    ============================================ */
+    .hidden { display: none !important; }
+    :target { scroll-margin-top: 72px; }
+  </style>
+</head>
+<body>
+
+<!-- ================================================
+     NAVBAR
+================================================ -->
+<nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#home">Andrew Bowen</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navCollapse">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navCollapse">
+      <ul class="navbar-nav ms-auto gap-1">
+        <li class="nav-item"><a class="nav-link" href="#about">About</a></li>
+        <li class="nav-item"><a class="nav-link" href="#resume">Résumé</a></li>
+        <li class="nav-item"><a class="nav-link" href="#guitar-page">Guitar</a></li>
+        <li class="nav-item"><a class="nav-link" href="#game-section">Trivia</a></li>
+        <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- ================================================
+     HERO
+================================================ -->
+<section id="home">
+  <div class="container">
+    <div class="row align-items-center g-5">
+      <div class="col-lg-6">
+        <div class="hero-eyebrow">Accountancy · BYU · Provo, UT</div>
+        <h1 class="hero-name">Andrew<br/>Bowen</h1>
+        <p class="hero-title">Accounting Student &amp; Future CPA</p>
+        <p class="hero-bio">Detail-oriented BYU accounting student with a 4.0 GPA, international service experience in Ghana, and a love for bringing precision and integrity to everything I do.</p>
+        <div class="d-flex gap-3 flex-wrap">
+          <a href="#resume" class="btn btn-gold">View Résumé</a>
+          <a href="#contact" class="btn btn-outline-hero">Get In Touch</a>
+        </div>
+        <div class="hero-stat-row">
+          <div>
+            <div class="hero-stat-num">4.0</div>
+            <div class="hero-stat-lbl">GPA</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">2</div>
+            <div class="hero-stat-lbl">Languages</div>
+          </div>
+          <div>
+            <div class="hero-stat-num">🦅</div>
+            <div class="hero-stat-lbl">Eagle Scout</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-6 d-flex justify-content-center justify-content-lg-end">
+        <div class="hero-photo-wrap">
+          <img src="profile.jpg" alt="Andrew Bowen" class="hero-photo"/>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     ABOUT
+================================================ -->
+<section id="about">
+  <div class="container">
+    <p class="sec-label">Who I Am</p>
+    <h2 class="sec-title">About Me</h2>
+    <div class="gold-bar"></div>
+    <div class="row g-4 align-items-start">
+      <div class="col-lg-7">
+        <p style="font-size:1.05rem;line-height:1.9;color:#333;">I'm an accountancy student at Brigham Young University with a perfect 4.0 GPA and a passion for financial accuracy, ethical business practice, and lifelong learning. I graduated high school as salutatorian and earned my Eagle Scout — both experiences that shaped my work ethic and leadership approach.</p>
+        <p style="font-size:1.05rem;line-height:1.9;color:#333;">I served two years as a missionary for The Church of Jesus Christ of Latter-day Saints in Ghana, where I became conversational in Twi and developed deep respect for cross-cultural communication. Outside of academics, you'll find me playing guitar — it keeps me creative and grounded.</p>
+      </div>
+      <div class="col-lg-5">
+        <div class="row g-3">
+          <div class="col-6"><div class="about-card"><div class="num">4.0</div><div class="lbl">GPA</div></div></div>
+          <div class="col-6"><div class="about-card"><div class="num">CPA</div><div class="lbl">Goal</div></div></div>
+          <div class="col-6"><div class="about-card"><div class="num">2 yrs</div><div class="lbl">Ghana Mission</div></div></div>
+          <div class="col-6"><div class="about-card"><div class="num">Twi</div><div class="lbl">+ English</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     RESUME
+================================================ -->
+<section id="resume">
+  <div class="container">
+    <p class="sec-label">My Background</p>
+    <h2 class="sec-title">Résumé</h2>
+    <div class="gold-bar"></div>
+
+    <div class="row g-5">
+      <!-- LEFT -->
+      <div class="col-lg-7">
+
+        <h4 class="serif mb-3" style="color:var(--navy);"><i class="bi bi-mortarboard-fill me-2" style="color:var(--gold);"></i>Education</h4>
+        <div class="res-card res-block">
+          <div style="font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--navy);">B.S. Accountancy</div>
+          <div class="res-company mt-1">Brigham Young University — Provo, UT</div>
+          <div class="res-date">In Progress · GPA: 4.0 · Marriott School of Business</div>
+          <ul class="mt-2 mb-0" style="padding-left:1.2rem;font-size:.9rem;color:#444;line-height:1.9;">
+            <li>Dean's List every semester enrolled</li>
+            <li>Relevant courses: Intermediate Financial Accounting I &amp; II, Cost Accounting, Federal Income Tax, Auditing Theory &amp; Practice, Business Law for Accountants</li>
+          </ul>
+        </div>
+
+        <h4 class="serif mb-3 mt-4" style="color:var(--navy);"><i class="bi bi-briefcase-fill me-2" style="color:var(--gold);"></i>Work Experience</h4>
+
+        <div class="res-card res-block">
+          <div class="res-company">The Church of Jesus Christ of Latter-day Saints</div>
+          <div class="res-role">Full-Time Missionary — Ghana</div>
+          <div class="res-date">2 Years of Service</div>
+          <ul class="mt-2 mb-0" style="padding-left:1.2rem;font-size:.9rem;color:#444;line-height:1.9;">
+            <li>Led a team of missionaries, coordinating schedules, setting goals, and mentoring volunteers in a cross-cultural environment.</li>
+            <li>Became conversational in Twi, enabling direct communication with local communities.</li>
+            <li>Developed strong public speaking, leadership, and conflict-resolution skills serving diverse populations across multiple districts.</li>
+          </ul>
+        </div>
+
+        <div class="res-card res-block">
+          <div class="res-company">La Paloma Funeral Services</div>
+          <div class="res-role">Preened Specialist</div>
+          <div class="res-date">Part-Time</div>
+          <ul class="mt-2 mb-0" style="padding-left:1.2rem;font-size:.9rem;color:#444;line-height:1.9;">
+            <li>Provided compassionate, detail-oriented preparation services for families during sensitive times.</li>
+            <li>Maintained meticulous records and ensured all procedures met professional and regulatory standards.</li>
+            <li>Strengthened interpersonal communication skills working with grieving families and staff.</li>
+          </ul>
+        </div>
+
+        <h4 class="serif mb-3 mt-4" style="color:var(--navy);"><i class="bi bi-trophy-fill me-2" style="color:var(--gold);"></i>Honors &amp; Awards</h4>
+        <div class="res-card">
+          <div class="award-item">
+            <i class="bi bi-star-fill award-icon"></i>
+            <div>
+              <div style="font-weight:600;color:var(--navy);">Eagle Scout</div>
+              <div style="font-size:.85rem;color:var(--muted);">Boy Scouts of America — highest rank in scouting, representing leadership, service, and character.</div>
+            </div>
+          </div>
+          <div class="award-item">
+            <i class="bi bi-award-fill award-icon"></i>
+            <div>
+              <div style="font-weight:600;color:var(--navy);">Salutatorian</div>
+              <div style="font-size:.85rem;color:var(--muted);">Graduated second in class — recognized for academic excellence and leadership among peers.</div>
+            </div>
+          </div>
+          <div class="award-item">
+            <i class="bi bi-mortarboard-fill award-icon"></i>
+            <div>
+              <div style="font-weight:600;color:var(--navy);">4.0 GPA · Dean's List</div>
+              <div style="font-size:.85rem;color:var(--muted);">Maintained a perfect GPA throughout coursework at the BYU Marriott School of Business.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- RIGHT -->
+      <div class="col-lg-5">
+
+        <h4 class="serif mb-3" style="color:var(--navy);"><i class="bi bi-bar-chart-fill me-2" style="color:var(--gold);"></i>Skills</h4>
+        <div class="mb-3">
+          <p class="mb-1" style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;">Professional</p>
+          <span class="skill-chip">Leadership</span>
+          <span class="skill-chip">Communication</span>
+          <span class="skill-chip">Excel (Advanced)</span>
+          <span class="skill-chip">Financial Analysis</span>
+          <span class="skill-chip">Problem Solving</span>
+        </div>
+        <div class="mb-3">
+          <p class="mb-1" style="font-size:.78rem;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;">Technical</p>
+          <span class="skill-chip">QuickBooks</span>
+          <span class="skill-chip">Microsoft Office Suite</span>
+          <span class="skill-chip">Tableau</span>
+          <span class="skill-chip">HTML/CSS</span>
+        </div>
+
+        <h4 class="serif mb-3 mt-4" style="color:var(--navy);"><i class="bi bi-translate me-2" style="color:var(--gold);"></i>Languages</h4>
+        <div class="res-card" style="padding:1.1rem 1.4rem;">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <span style="font-weight:500;">English</span><span class="skill-chip">Native</span>
+          </div>
+          <div class="d-flex justify-content-between align-items-center">
+            <span style="font-weight:500;">Twi (Akan)</span><span class="skill-chip">Conversational</span>
+          </div>
+        </div>
+
+        <h4 class="serif mb-3 mt-4" style="color:var(--navy);"><i class="bi bi-journal-text me-2" style="color:var(--gold);"></i>Relevant Coursework</h4>
+        <div class="res-card" style="padding:1.1rem 1.4rem;">
+          <ul class="mb-0" style="padding-left:1.2rem;line-height:2;font-size:.88rem;color:#444;">
+            <li>Intermediate Financial Accounting I &amp; II</li>
+            <li>Cost Accounting</li>
+            <li>Federal Income Tax</li>
+            <li>Auditing Theory &amp; Practice</li>
+            <li>Accounting Information Systems</li>
+            <li>Business Law for Accountants</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     GUITAR PAGE (scratch section — hand-coded, no Bootstrap classes in content)
+================================================ -->
+<section id="guitar-page">
+
+  <div id="guitar-hero">
+    <h2>Six Strings &amp; Open Roads</h2>
+    <p class="tagline">Guitar · Music · My Creative Outlet</p>
+    <p style="max-width:480px;margin:1rem auto 0;color:rgba(240,232,216,.65);font-size:1rem;">Accounting sharpens the mind — music feeds the soul. Here's why I play.</p>
+  </div>
+
+  <div style="max-width:860px;margin:0 auto;padding:0 1.5rem;">
+
+    <!-- WHY I PLAY -->
+    <div class="gtr-section" id="why-guitar">
+      <p class="gtr-label">My Story</p>
+      <h3 class="gtr-title">Why I Play</h3>
+      <div class="gtr-bar"></div>
+      <p style="color:rgba(240,232,216,.8);line-height:1.85;font-size:1rem;">I picked up my first guitar as a teenager, mostly self-taught on YouTube videos and chord charts. When I was in Ghana, music became a bridge — I'd pull out a guitar at community gatherings and it didn't matter that we spoke different languages. There's something universal about a chord progression that no spreadsheet has ever achieved.</p>
+      <p style="color:rgba(240,232,216,.8);line-height:1.85;font-size:1rem;">Now I play mostly fingerstyle and acoustic folk. It balances out the left-brain rigor of accounting — the same attention to detail that makes a good auditor makes a careful guitarist.</p>
+
+      <blockquote class="gtr-quote">"Music gives a soul to the universe, wings to the mind, flight to the imagination, and life to everything." — Plato</blockquote>
+
+      <img class="gtr-img"
+        src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?w=900&q=70"
+        alt="Acoustic guitar close-up in warm light"/>
+    </div>
+
+    <!-- GEAR & STYLES -->
+    <div class="gtr-section" id="guitar-gear">
+      <p class="gtr-label">What I Play</p>
+      <h3 class="gtr-title">My Gear &amp; Styles</h3>
+      <div class="gtr-bar"></div>
+
+      <!-- ORDERED LIST with embedded UNORDERED LISTS (requirement) -->
+      <ol>
+        <li>
+          <strong style="color:var(--gtr-tan);">Acoustic Guitar (Main)</strong>
+          <ul>
+            <li>Yamaha FG800 — warm, balanced tone great for fingerpicking</li>
+            <li>D'Addario Phosphor Bronze strings (.012–.053)</li>
+            <li>Bone nut and saddle for improved sustain</li>
+          </ul>
+        </li>
+        <li>
+          <strong style="color:var(--gtr-tan);">Electric Guitar (Secondary)</strong>
+          <ul>
+            <li>Squier Classic Vibe Stratocaster — versatile for blues and indie</li>
+            <li>Fender Frontman 20G practice amp</li>
+            <li>Digitech multi-effects pedal for experimenting with tones</li>
+          </ul>
+        </li>
+        <li>
+          <strong style="color:var(--gtr-tan);">Accessories &amp; Learning Tools</strong>
+          <ul>
+            <li>Capo (transposing keys for vocal range)</li>
+            <li>Clip-on tuner + GuitarTuna app</li>
+            <li>JustinGuitar.com — best free learning platform</li>
+          </ul>
+        </li>
+        <li>
+          <strong style="color:var(--gtr-tan);">Genres I Play</strong>
+          <ul>
+            <li>Fingerstyle acoustic (Tommy Emmanuel, Andy McKee)</li>
+            <li>Acoustic folk &amp; singer-songwriter</li>
+            <li>Classic rock chord progressions</li>
+            <li>Ghanaian highlife rhythms learned on my mission</li>
+          </ul>
+        </li>
+      </ol>
+
+      <!-- Cards grid (uses div positioning, no Bootstrap grid classes) -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-top:2rem;">
+        <div class="gtr-card">
+          <div class="icon">🎸</div>
+          <h3>Fingerstyle</h3>
+          <p>Playing melody and bass simultaneously — the most challenging and rewarding technique I've pursued.</p>
+        </div>
+        <div class="gtr-card">
+          <div class="icon">🎵</div>
+          <h3>Highlife</h3>
+          <p>Ghana's signature music genre. Playing it connects me back to two of the most meaningful years of my life.</p>
+        </div>
+        <div class="gtr-card">
+          <div class="icon">📖</div>
+          <h3>Self-Taught</h3>
+          <p>Mostly self-taught via online resources — a reminder that the most valuable skills often come from curiosity.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- VIDEO -->
+    <div class="gtr-section" id="guitar-video">
+      <p class="gtr-label">Watch &amp; Learn</p>
+      <h3 class="gtr-title">Fingerstyle Guitar Inspiration</h3>
+      <div class="gtr-bar"></div>
+      <p style="color:rgba(240,232,216,.7);font-size:.95rem;margin-bottom:1rem;">Tommy Emmanuel is one of my biggest inspirations — this performance shows what's possible with two hands and one acoustic guitar:</p>
+
+      <div class="video-wrap">
+        <iframe
+          src="https://www.youtube.com/embed/9SmQOZWNyWE"
+          title="Tommy Emmanuel fingerstyle guitar"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+
+    <!-- TABLEAU -->
+    <div class="gtr-section" id="guitar-data">
+      <p class="gtr-label">Data Viz</p>
+      <h3 class="gtr-title">Music Industry Data</h3>
+      <div class="gtr-bar"></div>
+      <p style="color:rgba(240,232,216,.7);font-size:.95rem;margin-bottom:1rem;">An interactive Tableau visualization exploring global music streaming trends and genre popularity:</p>
+
+      <div class="tableau-wrap">
+        <div class="tableauPlaceholder" id="tableauViz" style="position:relative;width:100%;">
+          <noscript><a href="#"><img alt="Music Viz" src="https://public.tableau.com/static/images/Bo/Book1_15660302560050/Sheet1/1_rss.png" style="border:none"/></a></noscript>
+          <object class="tableauViz" style="width:100%;height:440px;">
+            <param name="host_url" value="https%3A%2F%2Fpublic.tableau.com%2F"/>
+            <param name="embed_code_version" value="3"/>
+            <param name="site_root" value=""/>
+            <param name="name" value="MusicGenreEvolution/Dashboard1"/>
+            <param name="tabs" value="no"/>
+            <param name="toolbar" value="yes"/>
+            <param name="animate_transition" value="yes"/>
+            <param name="display_static_image" value="yes"/>
+            <param name="display_spinner" value="yes"/>
+            <param name="display_overlay" value="yes"/>
+            <param name="display_count" value="yes"/>
+          </object>
+        </div>
+        <script type="text/javascript">
+          (function(){
+            var d=document.getElementById('tableauViz');
+            var o=d.getElementsByTagName('object')[0];
+            o.style.width='100%'; o.style.height='450px';
+            var s=document.createElement('script');
+            s.src='https://public.tableau.com/javascripts/api/viz_v1.js';
+            o.parentNode.insertBefore(s,o);
+          })();
+        </script>
+      </div>
+      <p style="font-size:.78rem;color:rgba(240,232,216,.3);margin-top:.5rem;">Tableau embed requires a live internet connection — works correctly when hosted on GitHub Pages.</p>
+
+      <p style="text-align:center;margin-top:2rem;"><a href="#why-guitar" style="color:var(--gtr-tan);text-decoration:none;">↑ Back to Top of Guitar Page</a></p>
+    </div>
+
+  </div><!-- end guitar content -->
+</section>
+
+<!-- ================================================
+     TRIVIA GAME
+================================================ -->
+<section id="game-section">
+  <div class="container">
+    <p class="sec-label">Interactive App</p>
+    <h2 class="sec-title" style="color:#a8d5a2;">Guitar &amp; Music Trivia</h2>
+    <div class="gold-bar" style="background:#6fcf7a;"></div>
+
+    <div style="max-width:640px;margin:0 auto;">
+
+      <!-- SPLASH -->
+      <div id="g-splash" style="text-align:center;padding:1rem 0;">
+        <div style="font-size:4rem;margin-bottom:.8rem;">🎸</div>
+        <h3 style="font-family:'Playfair Display',serif;color:#a8d5a2;font-size:1.9rem;margin-bottom:.4rem;">Music Trivia Challenge</h3>
+        <p style="color:#8fa88f;font-size:.95rem;max-width:400px;margin:0 auto 1.5rem;line-height:1.7;">How well do you know guitars, music theory, and famous musicians? Pick a category and find out.</p>
+
+        <div class="cat-grid" style="margin-bottom:1.3rem;">
+          <button class="cat-btn selected" data-cat="all" onclick="gSelectCat(this,'all')">
+            <span class="cat-icon">🗺</span>
+            <span class="cat-name">All Topics</span>
+            <span class="cat-desc">Mix of everything</span>
+          </button>
+          <button class="cat-btn" data-cat="guitar" onclick="gSelectCat(this,'guitar')">
+            <span class="cat-icon">🎸</span>
+            <span class="cat-name">Guitar</span>
+            <span class="cat-desc">Gear, technique, history</span>
+          </button>
+          <button class="cat-btn" data-cat="theory" onclick="gSelectCat(this,'theory')">
+            <span class="cat-icon">🎵</span>
+            <span class="cat-name">Music Theory</span>
+            <span class="cat-desc">Notes, chords, scales</span>
+          </button>
+          <button class="cat-btn" data-cat="artists" onclick="gSelectCat(this,'artists')">
+            <span class="cat-icon">🌟</span>
+            <span class="cat-name">Famous Artists</span>
+            <span class="cat-desc">Legends of music</span>
+          </button>
+        </div>
+        <button class="g-btn g-btn-green" onclick="gStart()">Start Quiz →</button>
+      </div>
+
+      <!-- GAME -->
+      <div id="g-game" class="hidden">
+        <div style="margin-bottom:1.4rem;">
+          <div class="g-prog-info">
+            <span id="g-counter">Question 1 of 10</span>
+            <span id="g-score-live">Score: 0</span>
+          </div>
+          <div class="g-prog-bg"><div class="g-prog-fill" id="g-prog" style="width:0%"></div></div>
+        </div>
+
+        <div class="g-q-card">
+          <div class="g-cat-tag" id="g-cat-tag">Guitar</div>
+          <div id="g-question-text">Loading...</div>
+        </div>
+
+        <div class="g-options" id="g-opts"></div>
+        <div id="g-feedback"></div>
+        <button class="g-btn g-btn-green hidden" id="g-next" onclick="gNext()">Next Question →</button>
+      </div>
+
+      <!-- RESULTS -->
+      <div id="g-results" class="hidden" style="text-align:center;">
+        <div class="score-circle">
+          <span class="score-num" id="g-final-score">0</span>
+          <span class="score-den" id="g-final-den">/ 10</span>
+        </div>
+        <div class="grade-badge" id="g-grade"></div>
+        <h3 style="font-family:'Playfair Display',serif;color:#a8d5a2;font-size:1.6rem;" id="g-result-head"></h3>
+        <p style="color:#8fa88f;font-size:.93rem;" id="g-result-sub"></p>
+        <div class="bk-list" id="g-bk"><p>Question Breakdown</p></div>
+        <div style="display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;margin-top:1.2rem;">
+          <button class="g-btn g-btn-green" onclick="gStart()">Play Again</button>
+          <button class="g-btn g-btn-outline" onclick="gHome()">Change Category</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ================================================
+     CONTACT / FOOTER
+================================================ -->
+<section id="contact">
+  <div class="container text-center">
+    <p class="sec-label">Let's Connect</p>
+    <h2 class="sec-title">Get In Touch</h2>
+    <div class="gold-bar mx-auto"></div>
+    <p style="color:rgba(255,255,255,.65);max-width:440px;margin:0 auto 2rem;font-size:1rem;line-height:1.8;">Open to internship opportunities, networking, or conversations about accounting, missions, music, and everything in between.</p>
+    <p style="margin-bottom:1.5rem;"><a href="mailto:andrewjobowen@gmail.com" style="color:var(--gold);font-size:1.05rem;text-decoration:none;"><i class="bi bi-envelope-fill me-2"></i>andrewjobowen@gmail.com</a></p>
+    <div>
+      <a href="https://linkedin.com" target="_blank" class="social-link" title="LinkedIn"><i class="bi bi-linkedin"></i></a>
+      <a href="mailto:andrewjobowen@gmail.com" class="social-link" title="Email"><i class="bi bi-envelope-fill"></i></a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Andrew Bowen · BYU Accountancy · IS 201 Final Project</p>
+  </div>
+</section>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// =====================================================
+// NAVBAR active link on scroll
+// =====================================================
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let cur = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 100) cur = s.id; });
+  document.querySelectorAll('.nav-link').forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+  });
+});
+
+// =====================================================
+// TRIVIA QUESTIONS
+// =====================================================
+const gQuestions = [
+  // GUITAR
+  { cat:'guitar', label:'🎸 Guitar', q:'How many strings does a standard acoustic or electric guitar have?', opts:['4','5','6','7'], a:2, fact:'Standard guitars have 6 strings tuned E-A-D-G-B-E from low to high. Bass guitars have 4.' },
+  { cat:'guitar', label:'🎸 Guitar', q:'What does a "capo" do when placed on a guitar fret?', opts:['Mutes all strings below it','Raises the pitch of all strings by clamping them','Lowers the action of the strings','Adds a wah-wah effect'], a:1, fact:'A capo clamps all strings at a chosen fret, raising the overall pitch. This lets you play open chord shapes in a higher key — very useful for matching a singer\'s vocal range.' },
+  { cat:'guitar', label:'🎸 Guitar', q:'What wood is most commonly used for acoustic guitar tops (soundboards) due to its excellent resonance?', opts:['Mahogany','Rosewood','Spruce','Maple'], a:2, fact:'Sitka spruce is the most popular soundboard wood for acoustic guitars because of its high stiffness-to-weight ratio, producing a bright, balanced tone with excellent projection.' },
+  { cat:'guitar', label:'🎸 Guitar', q:'Which guitarist is often called "Slowhand" and is famous for blues-rock work with Cream and his solo career?', opts:['Jimi Hendrix','Eric Clapton','Carlos Santana','B.B. King'], a:1, fact:'"Slowhand" is Eric Clapton\'s longtime nickname. Cream\'s "Sunshine of Your Love" and his solo "Layla" are among rock\'s most iconic guitar moments.' },
+  { cat:'guitar', label:'🎸 Guitar', q:'In standard guitar tuning, what is the thinnest (highest-pitched) string?', opts:['E (low)','A','B','E (high)'], a:3, fact:'Standard tuning from thickest to thinnest: E A D G B E. The high E string is the thinnest and produces the highest pitch.' },
+  // THEORY
+  { cat:'theory', label:'🎵 Music Theory', q:'How many semitones (half steps) are in one octave?', opts:['7','10','12','8'], a:2, fact:'There are 12 semitones in an octave. The chromatic scale contains all 12 pitches within that span (e.g. C, C#, D, D#, E, F, F#, G, G#, A, A#, B, then back to C).' },
+  { cat:'theory', label:'🎵 Music Theory', q:'What are the three notes that make up a basic major chord?', opts:['Root, minor 2nd, perfect 5th','Root, major 3rd, perfect 5th','Root, major 2nd, minor 6th','Root, perfect 4th, major 7th'], a:1, fact:'A major chord = root + major 3rd (4 semitones) + perfect 5th (7 semitones from root). For a C major chord: C + E + G.' },
+  { cat:'theory', label:'🎵 Music Theory', q:'What does "BPM" stand for in music?', opts:['Bass Per Measure','Beats Per Minute','Beat Pattern Marker','Bass-to-Peak Measure'], a:1, fact:'BPM stands for Beats Per Minute — the standard unit for measuring tempo. 60 BPM = one beat per second; 120 BPM = two beats per second (a common pop/rock tempo).' },
+  { cat:'theory', label:'🎵 Music Theory', q:'Which musical symbol indicates that a note should be played for one quarter of a whole note\'s duration?', opts:['Whole note','Half note','Quarter note','Eighth note'], a:2, fact:'A quarter note = 1/4 of a whole note. In 4/4 time (the most common time signature), there are exactly 4 quarter notes per measure.' },
+  // ARTISTS
+  { cat:'artists', label:'🌟 Famous Artists', q:'Which legendary guitarist is known for playing guitar left-handed on a right-handed Fender Stratocaster — strung upside down?', opts:['Carlos Santana','Stevie Ray Vaughan','Jimi Hendrix','Kurt Cobain'], a:2, fact:'Jimi Hendrix restrung right-handed Stratocasters for left-handed play. His 1969 Woodstock performance of "The Star-Spangled Banner" is considered one of rock history\'s defining moments.' },
+  { cat:'artists', label:'🌟 Famous Artists', q:'Tommy Emmanuel, one of the greatest fingerstyle guitarists alive, is from which country?', opts:['United States','United Kingdom','Canada','Australia'], a:3, fact:'Tommy Emmanuel CBE is Australian, born in Muswellbrook, New South Wales. He was one of the first guitarists Chet Atkins ever named a "Certified Guitar Player" — a rare honor.' },
+  { cat:'artists', label:'🌟 Famous Artists', q:'Which artist wrote and recorded "Blackbird," a fingerstyle acoustic piece often cited as a masterpiece of Beatles songwriting?', opts:['John Lennon','George Harrison','Paul McCartney','Ringo Starr'], a:2, fact:'"Blackbird" (1968) was written and recorded solo by Paul McCartney on the White Album. He used a Bach-inspired fingerpicking pattern that remains one of the most-learned guitar pieces.' },
+  { cat:'artists', label:'🌟 Famous Artists', q:'What is Ghanaian "Highlife" music primarily characterized by?', opts:['Heavy electronic beats with no melody','A blend of traditional Akan rhythms with Western jazz and guitar harmonies','Pure drum-only percussion with no harmony','Classical European orchestral arrangements'], a:1, fact:'Highlife emerged in Ghana in the early 20th century, blending indigenous rhythms (especially Akan) with Western instruments, jazz harmonies, and guitar. It\'s one of Africa\'s most influential popular music genres.' },
+];
+
+let gCat = 'all', gPool = [], gIdx = 0, gScore = 0, gAnswers = [];
+
+function gSelectCat(btn, cat) {
+  document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  gCat = cat;
+}
+
+function gStart() {
+  let pool = gCat === 'all' ? [...gQuestions] : gQuestions.filter(q => q.cat === gCat);
+  pool = pool.sort(() => Math.random() - .5);
+  gPool = pool.slice(0, Math.min(10, pool.length));
+  gIdx = 0; gScore = 0; gAnswers = [];
+  document.getElementById('g-splash').classList.add('hidden');
+  document.getElementById('g-results').classList.add('hidden');
+  document.getElementById('g-game').classList.remove('hidden');
+  gLoad();
+}
+
+function gLoad() {
+  const q = gPool[gIdx], total = gPool.length;
+  document.getElementById('g-counter').textContent = `Question ${gIdx+1} of ${total}`;
+  document.getElementById('g-score-live').textContent = `Score: ${gScore}`;
+  document.getElementById('g-prog').style.width = `${(gIdx/total)*100}%`;
+  document.getElementById('g-cat-tag').textContent = q.label;
+  document.getElementById('g-question-text').textContent = q.q;
+  const opts = document.getElementById('g-opts');
+  opts.innerHTML = '';
+  ['A','B','C','D'].forEach((l,i) => {
+    const b = document.createElement('button');
+    b.className = 'g-opt-btn';
+    b.innerHTML = `<span class="g-letter">${l}</span><span>${q.opts[i]}</span>`;
+    b.onclick = () => gPick(i);
+    opts.appendChild(b);
+  });
+  const fb = document.getElementById('g-feedback');
+  fb.className = ''; fb.style.display = 'none';
+  document.getElementById('g-next').classList.add('hidden');
+}
+
+function gPick(chosen) {
+  const q = gPool[gIdx];
+  document.querySelectorAll('.g-opt-btn').forEach(b => b.disabled = true);
+  const ok = chosen === q.a;
+  if (ok) gScore++;
+  gAnswers.push({ q: q.q, ok, correct: q.opts[q.a] });
+  document.querySelectorAll('.g-opt-btn')[chosen].classList.add(ok ? 'correct' : 'wrong');
+  if (!ok) document.querySelectorAll('.g-opt-btn')[q.a].classList.add('correct');
+  const fb = document.getElementById('g-feedback');
+  fb.className = ok ? 'cfb show' : 'wfb show';
+  fb.innerHTML = ok
+    ? `<strong>✅ Correct!</strong> ${q.fact}`
+    : `<strong>❌ Not quite.</strong> The answer was <strong>${q.opts[q.a]}</strong>. ${q.fact}`;
+  fb.style.display = 'block';
+  document.getElementById('g-score-live').textContent = `Score: ${gScore}`;
+  const nb = document.getElementById('g-next');
+  nb.classList.remove('hidden');
+  nb.textContent = gIdx === gPool.length - 1 ? 'See Results 🏆' : 'Next Question →';
+}
+
+function gNext() {
+  gIdx++;
+  if (gIdx >= gPool.length) gShowResults();
+  else gLoad();
+}
+
+function gShowResults() {
+  document.getElementById('g-game').classList.add('hidden');
+  document.getElementById('g-results').classList.remove('hidden');
+  const total = gPool.length, pct = gScore/total;
+  document.getElementById('g-final-score').textContent = gScore;
+  document.getElementById('g-final-den').textContent = '/ '+total;
+  let grade, head, sub, style;
+  if (pct===1) { grade='🏆 Perfect!'; head='Music Maestro!'; sub='A flawless score — you clearly know your stuff.'; style='background:#1a3d1c;color:#6fcf7a;border:2px solid #6fcf7a;'; }
+  else if (pct>=.8) { grade='🥇 Excellent'; head='Rock Star!'; sub='Impressive knowledge of music and guitar.'; style='background:#1a3d1c;color:#a8d5a2;border:2px solid #a8d5a2;'; }
+  else if (pct>=.6) { grade='🥈 Good Job'; head='Getting Tuneful!'; sub='Solid. Keep learning and you\'ll nail it.'; style='background:#2a3520;color:#c9e8a0;border:2px solid #c9e8a0;'; }
+  else { grade='🌱 Keep Going'; head='Keep Practicing!'; sub='Music is a journey — every wrong answer is a lesson.'; style='background:#332a10;color:#e0c060;border:2px solid #e0c060;'; }
+  document.getElementById('g-grade').textContent = grade;
+  document.getElementById('g-grade').style.cssText = style;
+  document.getElementById('g-result-head').textContent = head;
+  document.getElementById('g-result-sub').textContent = sub;
+  const bk = document.getElementById('g-bk');
+  bk.innerHTML = '<p>Question Breakdown</p>';
+  gAnswers.forEach(a => {
+    const el = document.createElement('div');
+    el.className = 'bk-item';
+    el.innerHTML = `<span style="color:${a.ok?'var(--g-green)':'var(--g-red)'}">${a.ok?'✓':'✗'}</span>
+      <span style="flex:1;font-size:.84rem;color:${a.ok?'#f0ece3':'rgba(240,236,227,.45)'}">${a.q.substring(0,65)}…</span>`;
+    bk.appendChild(el);
+  });
+}
+
+function gHome() {
+  document.getElementById('g-results').classList.add('hidden');
+  document.getElementById('g-splash').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
